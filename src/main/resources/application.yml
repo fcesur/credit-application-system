@@ -11,7 +11,7 @@ spring:
   data:
     redis:
       port: 6379
-      host: localhost
+      host: redis-credit-app
   jpa:
     database: postgresql
     hibernate:
