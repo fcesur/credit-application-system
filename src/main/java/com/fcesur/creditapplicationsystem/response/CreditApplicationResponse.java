@@ -12,6 +12,6 @@ import lombok.Setter;
 public class CreditApplicationResponse {
     @Enumerated(EnumType.STRING)
     private CreditApplicationStatusEnum status;
-    private CreditResponse credit;
+    private CreditLimitResponse credit;
     private ClientResponse client;
 }

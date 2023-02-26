@@ -2,11 +2,7 @@ package com.fcesur.creditapplicationsystem.entity;
 
 import com.fcesur.creditapplicationsystem.entity.abstracts.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 
 
 @Table(name = "credits")
@@ -21,8 +17,9 @@ public class Credit extends BaseEntity {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private CreditApplication creditApplication;
 
     private Double creditLimit;
+    
 }

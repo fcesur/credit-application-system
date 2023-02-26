@@ -8,4 +8,5 @@ public interface CreditService {
     CreditResponse findCreditByClientIdentificationNumber(String identificationNumber);
     Credit save(Credit credit);
     void deleteById(Long id);
+    Credit evaluateCredit(Integer creditScore, Double income, Double collateral);
 }

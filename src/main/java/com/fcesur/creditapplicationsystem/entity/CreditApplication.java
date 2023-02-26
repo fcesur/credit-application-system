@@ -3,10 +3,7 @@ package com.fcesur.creditapplicationsystem.entity;
 import com.fcesur.creditapplicationsystem.entity.abstracts.BaseEntity;
 import com.fcesur.creditapplicationsystem.enums.CreditApplicationStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -15,6 +12,7 @@ import static com.fcesur.creditapplicationsystem.enums.CreditApplicationStatusEn
 
 @Table(name = "credit_applications")
 @Entity
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
