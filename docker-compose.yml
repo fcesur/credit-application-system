@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  credit-application:
+    image: credit-app
+    container_name: credit-app
+    build: .
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-credit-app:5432/credit-db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      postgres-credit-app:
+        condition: service_healthy
+      redis-credit-app:
+        condition: service_started
+    networks:
+      - credit-app-network
+
+
+  postgres-credit-app:
+    image: postgres
+    container_name: postgres-credit-app
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=credit-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-u", "admin" ]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - credit-app-network
+
+  redis-credit-app:
+    image: redis
+    container_name: redis-credit-app
+    ports:
+      - "6379:6379"
+    networks:
+      - credit-app-network
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  credit-app-network:

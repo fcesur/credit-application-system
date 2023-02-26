@@ -1,0 +1,31 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: credit-app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/credit-database
+    username: postgres
+    password: admin
+  data:
+    redis:
+      port: 6379
+      host: localhost
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30S
+      cache-null-values: false
+
+springdoc:
+  swagger-ui:
+    enabled: true
