@@ -33,12 +33,18 @@ Step 2:
 - Run command to build images and run the containers\
 `docker-compose up`
 
-## Swagger Endpoint
-
-- http://localhost:8086/swagger-ui/index.html
 
 ## Database ERD
 
 ![ERD](doc_images/er_diagram.png)
+
+## Swagger Endpoint
+
+- http://localhost:8086/swagger-ui/index.html
+
+## Swagger Endpoints
+
+![Swagger](doc_images/swagger_endpoints.png)
+
 
 
