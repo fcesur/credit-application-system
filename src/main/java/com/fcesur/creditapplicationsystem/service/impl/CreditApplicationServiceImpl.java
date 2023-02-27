@@ -5,6 +5,7 @@ import com.fcesur.creditapplicationsystem.converter.CreditApplicationConverter;
 import com.fcesur.creditapplicationsystem.entity.Client;
 import com.fcesur.creditapplicationsystem.entity.Credit;
 import com.fcesur.creditapplicationsystem.entity.CreditApplication;
+import com.fcesur.creditapplicationsystem.entity.CreditNotification;
 import com.fcesur.creditapplicationsystem.enums.CreditApplicationStatusEnum;
 import com.fcesur.creditapplicationsystem.exception.ResourceNotFoundException;
 import com.fcesur.creditapplicationsystem.repository.CreditApplicationRepository;
@@ -16,6 +17,7 @@ import com.fcesur.creditapplicationsystem.service.CreditScoreService;
 import com.fcesur.creditapplicationsystem.service.CreditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +29,8 @@ import static com.fcesur.creditapplicationsystem.enums.CreditApplicationStatusEn
 @Slf4j
 @RequiredArgsConstructor
 public class CreditApplicationServiceImpl implements CreditApplicationService {
+
+    private final KafkaTemplate<String, Object> kafkaTemplate;
     private final CreditApplicationRepository creditApplicationRepository;
 
     private final CreditService creditService;
@@ -73,6 +77,8 @@ public class CreditApplicationServiceImpl implements CreditApplicationService {
             credit.setCreditApplication(creditApplication);
             creditApplication.setCredit(credit);
             creditService.save(credit);
+
+            kafkaTemplate.send("sms-notifications", new CreditNotification(client.getPhone(), creditApplication.getCredit().getCreditLimit()));
         }
 
         CreditApplication savedCreditApplication = creditApplicationRepository.save(creditApplication);

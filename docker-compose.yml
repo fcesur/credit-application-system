@@ -17,6 +17,10 @@ services:
         condition: service_healthy
       redis-credit-app:
         condition: service_started
+      kafka-credit-app:
+        condition: service_started
+      kafka-ui-credit-app:
+        condition: service_started
     networks:
       - credit-app-network
 
@@ -48,6 +52,49 @@ services:
       - "6379:6379"
     networks:
       - credit-app-network
+
+
+  kafka-credit-app:
+    image: confluentinc/cp-kafka
+    container_name: kafka-credit-app
+    ports:
+      - "9092:9092"
+    networks:
+      - credit-app-network
+    depends_on:
+      - zookeeper-credit-app
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper-credit-app:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka-credit-app:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+
+  kafka-ui-credit-app:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui-credit-app
+    depends_on:
+      kafka-credit-app:
+        condition: service_started
+    ports:
+      - "9090:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-credit-app:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper-credit-app:2181
+    networks:
+      - credit-app-network
+
+  zookeeper-credit-app:
+    image: "zookeeper"
+    container_name: zookeeper-credit-app
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - credit-app-network
+
 
 volumes:
   db:
