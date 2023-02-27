@@ -10,6 +10,8 @@ Credit Application System using Java & Spring Boot
 - Spring Security
 - Postgres
 - OpenAPI
+- Apache Kafka
+- Kafka UI
 - Redis
 - Docker
 - Docker Compose
