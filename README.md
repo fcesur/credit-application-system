@@ -9,12 +9,12 @@ Credit Application System using Java & Spring Boot
 - Spring Boot 3.0.1
 - Spring Security
 - Postgres
-- OpenAPI
 - Apache Kafka
 - Kafka UI
 - Redis
 - Docker
 - Docker Compose
+- OpenAPI
 
 ## How to Run Application
 
